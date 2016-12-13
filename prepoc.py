@@ -10,8 +10,10 @@ from pprint import pprint
 
 stop_words = stopwords.words('russian')
 stop_words.extend(
-    ['что', 'это', 'так', 'вот', 'быть', 'как', 'в', '—', 'к', 'на', "«","»"]
+    ['что', 'это', 'так', 'вот', 'быть', 'как', 'в', '—', 'к', 'на', "«","»", "."]
 )
+
+# DOTRE=re.compile("")
 
 def stw(word):
     if word == '':
@@ -22,15 +24,34 @@ def stw(word):
         return True
     return False
 
+
 def tokenizer(file_text, sents, error_mark=""):
     try:
-        tokens = nltk.word_tokenize(file_text)
+        sentences = nltk.sent_tokenize(file_text)
+        # print ("Sents:", sentences)
     except TypeError:
         return sents
+    tokens = []
+    for sentence in sentences:
+        try:
+            tokens.extend(nltk.word_tokenize(sentence))
+        except TypeError:
+            return sents
     #tokens = [i for i in tokens if not stw(i)]
-    # print(tokens)
+    #print("Tokens:", tokens)
     words = []
     morph = pymorphy2.MorphAnalyzer()
+    nt = []
+    for token in tokens:
+        if "." in token:
+            spl = token.split(".")
+            for s in spl[:-1]:
+                nt.append(s)
+                nt.append(".")
+            nt.append(spl[-1])
+        else:
+            nt.append(token)
+    tokens = nt
     for token in tokens:
         p = morph.parse(token)
         if stw(token):
@@ -53,7 +74,10 @@ def tokenizer(file_text, sents, error_mark=""):
     return sents
 
 def main():
-    TXT ='Мама мыла раму, быстрая рыжая лисица переперпрыгнула ленивую собаку и жирную кошку.'
+    TXT ="""
+    Мама мыла раму, быстрая рыжая лисица переперпрыгнула ленивую собаку и жирную кошку.
+    Мама мыла раму.Папа выбрасывал мусор,играя на скрипке.
+    """
     d={}
     d=tokenizer(TXT, d)
     d=tokenizer(TXT, d)
