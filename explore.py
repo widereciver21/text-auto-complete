@@ -9,3 +9,5 @@ tagged = nltk.pos_tag(tokens)
 print(tagged)
 #[('At', 'IN'), ('eight', 'CD'), ("o'clock", 'JJ'), ('on', 'IN'),
 #('Thursday', 'NNP'), ('morning', 'NN')]
+
+#oosodsdio
