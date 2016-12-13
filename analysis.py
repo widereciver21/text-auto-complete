@@ -13,7 +13,7 @@ def filter_data(sents):
     for k, v in sents.items():
         if v<=1:
             continue
-        if len(k)<2:
+        if len(k)==1 and len(k[0])<=2:
             continue
         news[k]=v
 
