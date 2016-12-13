@@ -52,7 +52,7 @@ def tokenizer(file_text, sents, error_mark=""):
         sents[idx]=c
     return sents
 
-if __name__ == '__main__':
+def main():
     TXT ='Мама мыла раму, быстрая рыжая лисица переперпрыгнула ленивую собаку и жирную кошку.'
     d={}
     d=tokenizer(TXT, d)
@@ -60,3 +60,5 @@ if __name__ == '__main__':
     print(TXT)
     pprint(d)
     
+if __name__ == '__main__':
+    main()
