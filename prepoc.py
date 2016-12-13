@@ -22,6 +22,11 @@ def stw(word):
         return True
     if word in stop_words:
         return True
+    try:
+        _ = float(word)
+        return True
+    except ValueError:
+        pass
     return False
 
 
@@ -43,7 +48,13 @@ def tokenizer(file_text, sents, error_mark=""):
     morph = pymorphy2.MorphAnalyzer()
     nt = []
     for token in tokens:
-        if "." in token:
+        if token != "." and "." in token:
+            try:
+                _  = float(token)
+                nt.append(token)
+                continue
+            except ValueError:
+                pass
             spl = token.split(".")
             for s in spl[:-1]:
                 nt.append(s)
@@ -76,7 +87,7 @@ def tokenizer(file_text, sents, error_mark=""):
 def main():
     TXT ="""
     Мама мыла раму, быстрая рыжая лисица переперпрыгнула ленивую собаку и жирную кошку.
-    Мама мыла раму.Папа выбрасывал мусор,играя на скрипке.
+    Мама мыла раму.Папа выбрасывал мусор,играя на скрипке за 36.78 рубля.
     """
     d={}
     d=tokenizer(TXT, d)
