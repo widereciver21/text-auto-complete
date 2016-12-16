@@ -6,16 +6,17 @@ from load import load_cache, DUMP_FILE, dump_cache
 
 sents = None
 
-FILTERED="../filtered.pickle"
+FILTERED = "../filtered.pickle"
+
 
 def filter_data(sents):
     news = {}
     for k, v in sents.items():
-        if v<=1:
+        if v <= 1:
             continue
-        if len(k)==1 and len(k[0])<=2:
+        if len(k) == 1 and len(k[0]) <= 2:
             continue
-        news[k]=v
+        news[k] = v
 
     dump_cache(FILTERED, news, -1)
     return news
@@ -23,9 +24,9 @@ def filter_data(sents):
 
 def main():
     global sents
-    sents,_ = load_cache(DUMP_FILE)
+    sents, _ = load_cache(DUMP_FILE)
     print("Loaded", len(sents))
-    sents=filter_data(sents)
+    sents = filter_data(sents)
     slist = list(sents.items())
     slist.sort(key=lambda x: -x[1])
     print("Filtered", len(sents))
@@ -33,7 +34,7 @@ def main():
         pprint.pprint(slist, out)
     quit()
 
-m=main
+m = main
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
