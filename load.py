@@ -54,9 +54,10 @@ def phrases(tree, count=2, pcount=100):
             cnt+=1
             continue
         # print(etree.tostring(node))
-        #print("mkb10={}".format(node.get("mkb10", None)))
+        #print("mkb10={}".format("mkb10", None))
+        mkb=node.get("mkb10")
         #print("diagnose={}".format(node[0].text))
-        sents = tokenizer(node.text, sents, error_mark="-")
+        sents = tokenizer(node.text, sents, error_mark="-" mkb10=mkb)
         #print("TEXT:=========================\n{}".format(node.text))
         #print("TAIL:====must be empty========\n{}".format(node.tail))
         count -= 1
@@ -92,7 +93,7 @@ def main():
     r = t.getroot()
     rl = len(r)
     print("Records No: {}".format(rl))
-    phs = phrases(t, rl, 100)
+    phs = phrases(t, 200, 100)
     pprint(phs)
     # example2(t)
     quit()
