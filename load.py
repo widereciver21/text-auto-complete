@@ -2,7 +2,7 @@
 from lxml import etree
 from prepoc import tokenizer
 from pprint import pprint
-import pickle 
+import pickle
 
 # TUTORIAL is here:
 
@@ -49,7 +49,7 @@ def phrases(tree, count=2, pcount=100):
     cnt = 0
     for node in tree.iterfind("//row"):
         if count == 0:
-            break        
+            break
         if cnt<lcnt:
             cnt+=1
             continue
@@ -57,7 +57,7 @@ def phrases(tree, count=2, pcount=100):
         #print("mkb10={}".format("mkb10", None))
         mkb=node.get("mkb10")
         #print("diagnose={}".format(node[0].text))
-        sents = tokenizer(node.text, sents, error_mark="-" mkb10=mkb)
+        sents = tokenizer(node.text, sents, error_mark="-", mkb10=mkb)
         #print("TEXT:=========================\n{}".format(node.text))
         #print("TAIL:====must be empty========\n{}".format(node.tail))
         count -= 1
@@ -68,7 +68,7 @@ def phrases(tree, count=2, pcount=100):
             print("Dumping for {} of {}".format(cnt, all_count))
             dump_cache(DUMP_FILE, sents, cnt)
     else:
-        print("No records found.") 
+        print("No records found.")
     dump_cache(DUMP_FILE,sents,cnt)
     return sents
 

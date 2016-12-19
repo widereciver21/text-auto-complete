@@ -32,9 +32,6 @@ def main():
     print("Filtered", len(sents))
     with open("../result.txt", "w") as out:
         pprint.pprint(slist, out)
-    quit()
-
-m = main
 
 if __name__ == "__main__":
     main()

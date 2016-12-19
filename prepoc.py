@@ -16,6 +16,8 @@ stop_words.extend(
 # DOTRE=re.compile("")
 
 def stw(word):
+    """Test if the word is a stop word.
+    """
     if word == '':
         return True
     if word in string.punctuation:
@@ -30,7 +32,7 @@ def stw(word):
     return False
 
 
-def tokenizer(file_text, sents, error_mark=""):
+def tokenizer(file_text, sents, error_mark="", mkb10=""):
     try:
         sentences = nltk.sent_tokenize(file_text)
         # print ("Sents:", sentences)
@@ -63,15 +65,24 @@ def tokenizer(file_text, sents, error_mark=""):
         else:
             nt.append(token)
     tokens = nt
+
+    def account_phrase(sents, phrase, mkb10):
+        assert phrase
+        idx = tuple(words)
+        d = sents.setdefault(idx, {})
+        for end in range(len(mkb10)+1):
+            mkb = mkb10[:end]
+            c = d.setdefault(mkb, 0) + 1
+            d[mkb] = c
+            sents[idx]=d
+
+    # Now divide the word list by stop words on phrases.
     for token in tokens:
         p = morph.parse(token)
         if stw(token):
             if len(words)>0:
-                idx = tuple(words)
-                c = sents.setdefault(idx, 0) + 1
-                sents[idx]=c
+                account_phrase(sents, words, mkb10)
                 words = []
-            # len < 0
             continue
         if len(p) == 0:
             words.add(error_mark+token)
@@ -79,9 +90,7 @@ def tokenizer(file_text, sents, error_mark=""):
         normal = p[0].normal_form
         words.append(normal)
     if words:
-        idx = tuple(words)
-        c = sents.setdefault(idx, 0) + 1
-        sents[idx]=c
+        account_phrase(sents, words, mkb10)
     return sents
 
 def main():
@@ -94,6 +103,6 @@ def main():
     d=tokenizer(TXT, d)
     print(TXT)
     pprint(d)
-    
+
 if __name__ == '__main__':
     main()
