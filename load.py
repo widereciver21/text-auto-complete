@@ -3,6 +3,7 @@ from lxml import etree
 from prepoc import tokenizer
 from pprint import pprint
 import pickle
+import sys
 
 # TUTORIAL is here:
 
@@ -63,6 +64,7 @@ def phrases(tree, count=2, pcount=100):
         count -= 1
         # print("C:{}".format(count))
         print(".", end="")
+        sys.stdout.flush()
         cnt +=1
         if cnt % pcount == 0:
             print("Dumping for {} of {}".format(cnt, all_count))
@@ -93,7 +95,8 @@ def main():
     r = t.getroot()
     rl = len(r)
     print("Records No: {}".format(rl))
-    phs = phrases(t, 200, 100)
+    # phs = phrases(t, 200, 100)
+    phs = phrases(t, -1, 100)
     pprint(phs)
     # example2(t)
     quit()

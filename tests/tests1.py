@@ -26,6 +26,8 @@ class TestLoader:
         assert isinstance(c, int)
         assert c == 1
 
-    @nottest
     def test_run_main(self):
-        analysis.main()
+        rc = analysis.main()
+        print(rc)
+        assert isinstance(rc, list)
+        assert len(rc[0]) == 2
