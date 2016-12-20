@@ -29,7 +29,7 @@ def filter_data(sents):
 class TrieExt(object):
     def __init__(self, dict_map):
         self.trie = marisa_trie.Trie(dict_map.keys())
-        self.trie_idx=[0] * len(self.trie)
+        self.trie_idx=[None] * len(self.trie)
         for k,v in dict_map.items():
             self.trie_idx[self.trie.key_id(k)] = v
 
@@ -52,6 +52,9 @@ class TrieExt(object):
     def check(self, key):
         return key in self.trie
 
+    def __str__(self):
+        return
+
 class Helm(object):
     def __init__(self, sents):
         self.sents=sents
@@ -64,11 +67,11 @@ class Helm(object):
                 mkbs.add(mkb)
         self.maintrie = marisa_trie.Trie(mkbs)
         tries={}
-        for word, d in self.sents.items():
+        for words, d in self.sents.items():
             for mkb, v in d.items():
                 code = self.maintrie.key_id(mkb)
                 tr = tries.setdefault(code, {})
-                tr[word] = v
+                tr[words] = v
         self.tries = [None] * len(tries)
         for mkbcode, d in tries.items():
             all_words = {}
@@ -112,7 +115,7 @@ def main(out_result=False):
         with open("../result.txt", "w") as out:
             pprint.pprint(slist, out)
     helm = Helm(sents)
-    return helm.query(mkb10="", prefixes=["отри"])
+    return helm.query(mkb10="C1", prefixes=["гип"])
 
 if __name__ == "__main__":
     main()

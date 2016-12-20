@@ -54,15 +54,9 @@ def phrases(tree, count=2, pcount=100):
         if cnt<lcnt:
             cnt+=1
             continue
-        # print(etree.tostring(node))
-        #print("mkb10={}".format("mkb10", None))
         mkb=node.get("mkb10")
-        #print("diagnose={}".format(node[0].text))
         sents = tokenizer(node.text, sents, error_mark="-", mkb10=mkb)
-        #print("TEXT:=========================\n{}".format(node.text))
-        #print("TAIL:====must be empty========\n{}".format(node.tail))
         count -= 1
-        # print("C:{}".format(count))
         print(".", end="")
         sys.stdout.flush()
         cnt +=1
