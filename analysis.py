@@ -33,13 +33,21 @@ class TrieExt(object):
         for k,v in dict_map.items():
             self.trie_idx[self.trie.key_id(k)] = v
 
-    def get(self, key):
-        try:
-            code = self.trie.key_id(key)
-        except KeyError:
-            keys = self.trie.prefixes(key)
-            return self.get(keys[0]) # FIXME: 0 examples
-        return self.trie_idx[code]
+    def get(self, key, exact=False):
+        if exact:
+            try:
+                code = self.trie.key_id(key)
+                print ("get-Code:", code)
+                return self.trie_idx[code]
+            except KeyError:
+                print ("get-notfound:", key)
+                return set()
+        keys = self.trie.prefixes(key)
+        print("keys:", keys)
+        com = set()
+        for key in keys:
+            com |= self.get(key, exact=True)
+        return com
 
     def check(self, key):
         return key in self.trie
@@ -70,36 +78,41 @@ class Helm(object):
 
             self.tries[mkbcode] = TrieExt(all_words)
 
-
-    def query(self, mkb10, prefixes=[]):
+    def query(self, mkb10, prefixes=[], op="int"):
         if mkb10 in self.maintrie:
             code = self.maintrie.key_id(mkb10)
-            print (code, len(self.tries))
+            print ("MKB", code, mkb10, len(self.tries))
             trie = self.tries[code]
             if not prefixes:
                 raise RuntimeError("wrong parameter")
-            return trie.get(prefixes[0]) # FIXME: Just first prefix
-        return None
+            com = None
+            for prefix in prefixes:
+                s = trie.get(prefix)
+                print("s:", s)
+                if com is None:
+                    com = s
+                else:
+                    if op == "int":
+                        com &= s
+                    elif op == "uni":
+                        com |= s
+            return com
+        return set()
 
-def fact(n):
-    if n==0: return 1
-    if n==1: return 1
-    return n * fac(n-1)
 
-# fact(100)
-
-def main():
+def main(out_result=False):
     global sents
     sents, _ = load_cache(DUMP_FILE)
     print("Loaded", len(sents))
     sents = filter_data(sents)
-    #slist = list(sents.items())
-    #slist.sort(key=lambda x: -x[1])
     print("Filtered", len(sents))
-    #with open("../result.txt", "w") as out:
-    #    pprint.pprint(slist, out)
+    if out_result:
+        slist = list(sents.items())
+        slist.sort(key=lambda x: -x[1])
+        with open("../result.txt", "w") as out:
+            pprint.pprint(slist, out)
     helm = Helm(sents)
-    return helm.query(mkb10="C34.0", prefixes=["арт","гип"])
+    return helm.query(mkb10="", prefixes=["отри"])
 
 if __name__ == "__main__":
     main()

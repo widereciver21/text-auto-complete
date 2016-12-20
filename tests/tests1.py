@@ -28,6 +28,6 @@ class TestLoader:
 
     def test_run_main(self):
         rc = analysis.main()
-        print(rc)
+        print("List:",rc)
         assert isinstance(rc, list)
         assert len(rc[0]) == 2
