@@ -26,7 +26,7 @@ class TestLoader:
         assert isinstance(c, int)
         assert c == 1
         helm = analysis.Helm(d)
-        print([len (t) for t in helm.tries])
+        print([t.trie_idx for t in helm.tries])
         print("Test:", helm.query("I8",prefixes=["пац"]))
         # Hans Zimmer
 

@@ -30,7 +30,9 @@ class TrieExt(object):
     def __init__(self, dict_map):
         self.trie = marisa_trie.Trie(dict_map.keys())
         self.trie_idx=[None] * len(self.trie)
+        print("dm")
         for k,v in dict_map.items():
+            print("V:",v, self.trie.key_id(k))
             self.trie_idx[self.trie.key_id(k)] = v
 
     def get(self, key, exact=False):
