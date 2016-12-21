@@ -35,14 +35,16 @@ class TestLoader:
 
     def test_run_main(self):
         helm = analysis.main()
-        rc = helm.query(mkb10="C1", prefixes=["гип", "арт"])
-        print("List:")
+        prf=["гип", "арт"]
+        rc = helm.query(mkb10="C1", prefixes=prf)
+        print("Prefixes:", prf)
+        print("List: C1")
         pprint.pprint(rc)
         rc = helm.query(mkb10="C", prefixes=["гип", "арт"])
-        print("List:")
+        print("List: C")
         pprint.pprint(rc)
         rc = helm.query(mkb10="", prefixes=["гип", "арт"])
-        print("List:")
+        print("List: ''")
         pprint.pprint(rc)
 
 
