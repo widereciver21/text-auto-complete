@@ -34,6 +34,7 @@ class TestLoader:
         print("Test:", helm.query("I8",prefixes=["пац",  "дов"]))
         # Hans Zimmer
 
+
     def test_run_main(self):
         helm = analysis.main()
         prf=["гип", "арт"]
