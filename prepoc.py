@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
-import nltk
 import re
 import sys
 import json
 import string
-from nltk.corpus import stopwords
+
+from stop_words import get_stop_words
+
 import pymorphy2
+from pymorphy2.tokenizers import simple_word_tokenize
 from pprint import pprint
 
-stop_words = stopwords.words('russian')
+stop_words = get_stop_words('russian')[:]
 stop_words.extend(
-    ['что', 'это', 'так', 'вот', 'быть', 'как', 'в', '—', 'к', 'на', "«","»", "."]
+    ['—', "«","»", "."]
 )
 
 # DOTRE=re.compile("")
@@ -31,17 +33,21 @@ def stw(word):
         pass
     return False
 
+GROUPING_SPACE_REGEX = re.compile(r'([^\w_-]|[+])', re.UNICODE)
+
+def _split(s):
+    return GROUPING_SPACE_REGEX.split(s)
 
 def tokenizer(file_text, sents, error_mark="", mkb10=""):
     try:
-        sentences = nltk.sent_tokenize(file_text)
+        sentences = simple_word_tokenize(file_text, _split=_split)
         # print ("Sents:", sentences)
     except TypeError:
         return sents
     tokens = []
     for sentence in sentences:
         try:
-            tokens.extend(nltk.word_tokenize(sentence))
+            tokens.extend(simple_word_tokenize(sentence, _split=_split))
         except TypeError:
             return sents
     #tokens = [i for i in tokens if not stw(i)]
