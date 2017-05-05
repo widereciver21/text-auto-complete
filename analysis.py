@@ -10,28 +10,30 @@ sents = None
 
 FILTERED = "../filtered.pickle"
 
+
 def filter_data(sents):
     news = {}
     for k, d in sents.items():
         if len(k) == 1 and len(k[0]) <= 2:
             continue
-        newd={}
+        newd = {}
         for mkb, v in d.items():
             if v <= 1:
                 continue
-            newd[mkb]=v
+            newd[mkb] = v
         if newd:
             news[k] = newd
 
     dump_cache(FILTERED, news, -1)
     return news
 
+
 class TrieExt(object):
     def __init__(self, dict_map):
         self.trie = marisa_trie.Trie(dict_map.keys())
-        self.trie_idx=[None] * len(self.trie)
-        #print("dm",dict_map)
-        for k,v in dict_map.items():
+        self.trie_idx = [None] * len(self.trie)
+        # print("dm",dict_map)
+        for k, v in dict_map.items():
             #print("V:",v, self.trie.key_id(k))
             self.trie_idx[self.trie.key_id(k)] = v
 
@@ -56,19 +58,20 @@ class TrieExt(object):
     def __str__(self):
         return
 
+
 class Helm(object):
     def __init__(self, sents):
-        self.sents=sents
+        self.sents = sents
         self.make_trie()
 
     def make_trie(self):
-        mkbs=set()
+        mkbs = set()
         for word, d in self.sents.items():
             for mkb, v in d.items():
                 mkbs.add(mkb)
-        #print("mkbs:",mkbs)
+        # print("mkbs:",mkbs)
         self.maintrie = marisa_trie.Trie(mkbs)
-        tries={}
+        tries = {}
         for words, d in self.sents.items():
             for mkb, v in d.items():
                 code = self.maintrie.key_id(mkb)
@@ -118,6 +121,7 @@ def main(out_result=False):
             pprint.pprint(slist, out)
     helm = Helm(sents)
     return helm
+
 
 if __name__ == "__main__":
     main()
