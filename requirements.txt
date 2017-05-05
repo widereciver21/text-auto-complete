@@ -1,0 +1,5 @@
+marisa_trie
+nose
+pymorphy2
+lxml
+stop-words
