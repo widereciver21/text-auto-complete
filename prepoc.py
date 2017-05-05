@@ -42,7 +42,6 @@ GROUPING_SPACE_REGEX = re.compile(
 
 def _split(s):
     l = GROUPING_SPACE_REGEX.split(s)
-    print("split:", l)
     return l
 
 
@@ -57,9 +56,7 @@ def simple_word_tokenize(text, _split=GROUPING_SPACE_REGEX.split):
 
 
 def tokenizer(file_text, sents, error_mark="", mkb10=""):
-    sentences = simple_word_tokenize(file_text, _split=_split)
     try:
-
         sentences = simple_word_tokenize(file_text, _split=_split)
         # print ("Sents:", sentences)
     except TypeError:

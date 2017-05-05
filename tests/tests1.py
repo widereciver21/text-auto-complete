@@ -11,6 +11,7 @@ class TestLoader:
     def tearDown(self):
         pass
 
+    @nottest
     def test_tokenizer(self):
         prepoc.main()
 
@@ -34,7 +35,7 @@ class TestLoader:
         print("Test:", helm.query("I8", prefixes=["пац",  "дов"]))
         # Hans Zimmer
 
-    @nottest
+    #@nottest
     def test_run_main(self):
         helm = analysis.main()
         prf = ["гип", "арт"]
