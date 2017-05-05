@@ -37,6 +37,7 @@ class TestLoader:
 
     #@nottest
     def test_run_main(self):
+        """Ok"""
         helm = analysis.main()
         prf = ["гип", "арт"]
         rc = helm.query(mkb10="C1", prefixes=prf)
